@@ -50,9 +50,7 @@ public class TeamServiceTest {
 		Assertions.assertThrows(TeamValidationException.class, () -> {
 
 			Team team = Team.builder().build();
-
 			teamService.createTeam(team);
-
 		});
 	}
 

@@ -35,11 +35,31 @@ public class TeamServiceImplementation implements TeamService {
 	}
 
 	private void validateTeam(Team team) {
+		validateTeamPresent(team);
+		validateTeamName(team);
+	}
+
+	private void validateTeamPresent(Team team){
 		if (null == team) {
 			throw new TeamValidationException(
 					"request does not contain a valid Team - please check your request payload");
 		}
-		if (null == team.getName() || team.getName().isEmpty() || team.getName().length() < 3) {
+	}
+
+	private void validateTeamName(Team team){
+		validateTeamNamePresent(team);
+		validateTeamNameLength(team);
+	}
+
+	private void validateTeamNamePresent(Team team){
+		if (null == team.getName() || team.getName().isEmpty()) {
+			throw new TeamValidationException(
+					"Payload must contain a valid team name, minimum of 3 characters, - please check your request values / payload");
+		}
+	}
+
+	private void validateTeamNameLength(Team team){
+		if(team.getName().length() < 3){
 			throw new TeamValidationException(
 					"Payload must contain a valid team name, minimum of 3 characters, - please check your request values / payload");
 		}

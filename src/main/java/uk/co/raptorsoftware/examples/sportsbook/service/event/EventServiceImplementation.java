@@ -36,7 +36,6 @@ public class EventServiceImplementation implements EventService {
 				.name(newEvent.getName()).teamA(teamA).teamB(teamB).build();
 
 		EventEntity savedEvent = eventRepository.save(eventEntity);
-
 		newEvent.setId(savedEvent.getId());
 
 		logger.debug("new event created:{}", newEvent);
@@ -57,21 +56,35 @@ public class EventServiceImplementation implements EventService {
 	}
 
 	private void validateEvent(Event event) {
+		validateTeamAPresent(event);
+		validateTEamBPresent(event);
+		validateEventDateTime(event);
+		validateEventName(event);
+	}
+
+	private void validateTeamAPresent(Event event){
 		if (null == event.getTeamAId()) {
 			throw new EventValidationException(
 					"Payload must contain valid team for TeamA - please check your request payload");
 		}
+	}
 
+	private void validateTEamBPresent(Event event){
 		if (null == event.getTeamBId()) {
 			throw new EventValidationException(
 					"Payload must contain valid team for TeamB - please check your request payload");
 		}
+	}
 
+	private void validateEventDateTime(Event event)
+	{
 		if (null == event.getEventDateTime()) {
 			throw new EventValidationException(
 					"Payload must contain valid date for Event Date - please check your request payload");
 		}
+	}
 
+	private void validateEventName(Event event){
 		if (null == event.getName() || event.getName().isEmpty()) {
 			throw new EventValidationException(
 					"Payload must contain valid name for the event - please check your request payload");
