@@ -63,9 +63,11 @@ public class ScoreboardValidatorTest {
         Assertions.assertThrows(ScoreboardValidationException.class, () -> {
 
             TeamEntity teamEntity = TeamEntity.builder().id(Long.valueOf(1)).build();
-            EventEntity eventEntity = EventEntity.builder().teamB(teamEntity).build();
+            LocalDateTime eventTime = LocalDateTime.parse("2019-01-25T15:00:00");
+            EventEntity eventEntity = EventEntity.builder().eventDateTime(eventTime).teamB(teamEntity).build();
 
-            Score score = Score.builder().teamId(Long.valueOf(2)).build();
+            LocalDateTime scoreTime = LocalDateTime.parse("2019-01-25T15:00:00");
+            Score score = Score.builder().timeRecorded(scoreTime).score(Long.valueOf(5)).teamId(Long.valueOf(2)).build();
             scoreboardValidator.validateScore(eventEntity, score);
 
         });
@@ -93,11 +95,12 @@ public class ScoreboardValidatorTest {
         Assertions.assertThrows(ScoreboardValidationException.class, () -> {
 
             LocalDateTime eventDateTime = LocalDateTime.parse("2019-01-25T20:00:00");
-            TeamEntity teamEntity = TeamEntity.builder().id(Long.valueOf(1)).build();
+            Long teamId = Long.valueOf(1);
+            TeamEntity teamEntity = TeamEntity.builder().id(teamId).build();
             EventEntity eventEntity = EventEntity.builder().teamB(teamEntity).eventDateTime(eventDateTime).build();
 
             LocalDateTime scoreTime = LocalDateTime.parse("2019-01-25T15:00:00");
-            Score score = Score.builder().score(Long.valueOf(1)).timeRecorded(scoreTime).build();
+            Score score = Score.builder().score(Long.valueOf(1)).teamId(teamId).timeRecorded(scoreTime).build();
             scoreboardValidator.validateScore(eventEntity, score);
 
         });
