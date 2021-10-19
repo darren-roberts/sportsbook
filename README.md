@@ -17,9 +17,9 @@ This will build the source code into binaries, executing test  cases as part fo 
 
 ## Creating the database
 
-The project uses an embded H2 database, which will be created each time the project starts.
+The project uses an embedded H2 database, which will be created each time the project starts.
 
-As per the Spring docuemntation the database can be subsituted by provding a different dependency (eg MYSQL) in the pom.xml and changinthe the appropriate propeties in the ```application.properties``` file.
+As per the Spring documentation the database can be substituted by providing a different dependency (eg MYSQL) in the pom.xml and changing the appropriate propeties in the ```application.properties``` file.
 
 ## Running the project
 
@@ -29,7 +29,7 @@ The project can be run on the command line by execution the following command fr
 
 ## Swagger
 
-It is assumed that the reader is familar with how to use Swagger. Help with the Swagger UI can be found at https://swagger.io/tools/swagger-ui/ 
+It is assumed that the reader is familiar with how to use Swagger. Help with the Swagger UI can be found at https://swagger.io/tools/swagger-ui/ 
 
 The Swagger test client can be used once the sportsbook project is running, at the following url:-
 
@@ -39,8 +39,8 @@ Once the page is accessed it can be used as a test client to run the apis docume
 
 In order to record scores, the following steps must be taken first:-
 
-1) Setup your times
-2) Setup your event, incuding which teams are playing.
+1) Setup your teams
+2) Setup your event, including which teams are playing.
 
 No you are ready to record your scores (they do not have to be "delivered" in aby particular order to the API but they must be correct)
 
@@ -51,21 +51,21 @@ If yuo wish (optionally) you can register for notifications for when the scores 
 
 ## Running the notifier 
 
-Deploy the scoreNotificationClientEample.html to a web server, ideally on the same machine as the score API (just for demo purposes). 
+Deploy the scoreNotificationClientExample.html to a web server, ideally on the same machine as the score API (just for demo purposes). 
 
-Once it has oaded, save a score using the approrpiate API, and then go back to the scoreNotificationClientExample.html and it should be updated with the latest score details.
+Once it has loaded, save a score using the appropriate API, and then go back to the scoreNotificationClientExample.html and it should be updated with the latest score details.
 
 Its is assumed that the client will have the necessary logic to filter out score for events that they are interested in, the notification mechanism currently publishes all scores to and client registrred regardless of which event the score is for.
 
 ## Design Assumptions / Considerations
 
 - Scores are not delivered in any particular order but are correct.
-- Clients regsitering for notifications will filter out events that they are not interested in.
-- Teams and events are setup before hand, rather than on demand.
+- Clients registering for notifications will filter out events that they are not interested in.
+- Teams and events are setup before, rather than on demand.
 
 ### Latest Score
 
-The latest score will be that recorded in the database that has the latest (newest) time associataed with it. The time is provided by the client and is assumed to be correct.
+The latest score will be that recorded in the database that has the latest (newest) time associated with it. The time is provided by the client and is assumed to be correct.
 
 ## Support
 
