@@ -1,9 +1,7 @@
 package uk.co.raptorsoftware.examples.sportsbook.service.scoreboard;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import uk.co.raptorsoftware.examples.sportsbook.domain.Event;
 import uk.co.raptorsoftware.examples.sportsbook.domain.LatestScore;
 import uk.co.raptorsoftware.examples.sportsbook.domain.Score;
 import uk.co.raptorsoftware.examples.sportsbook.domain.ScoreNotification;
@@ -82,7 +79,6 @@ public class ScoreboardServiceImplementation implements ScoreboardService {
 		return savedScore;
 	}
 
-
 	@Override
 	public LatestScore findLatestScore(Long eventId) {
 
@@ -98,14 +94,15 @@ public class ScoreboardServiceImplementation implements ScoreboardService {
 		return latestScore;
 	}
 
-	private LatestScore processEvent(Optional<EventEntity> eventEntity){
+	private LatestScore processEvent(Optional<EventEntity> eventEntity) {
 		EventEntity theEvent = eventEntity.get();
 
-		LatestScore latestScore = LatestScore.builder().teamNameA(theEvent.getTeamA().getName()).teamAScore(Long.valueOf(0))
-				.teamBScore(Long.valueOf(0)).teamNameB(theEvent.getTeamB().getName()).build();
+		LatestScore latestScore = LatestScore.builder().teamNameA(theEvent.getTeamA().getName())
+				.teamAScore(Long.valueOf(0)).teamBScore(Long.valueOf(0)).teamNameB(theEvent.getTeamB().getName())
+				.build();
 
 		if (null != theEvent.getScores() && theEvent.getScores().size() > 0) {
-			latestScore =  computeLatestScore(theEvent);
+			latestScore = computeLatestScore(theEvent);
 		}
 
 		return latestScore;
@@ -127,30 +124,31 @@ public class ScoreboardServiceImplementation implements ScoreboardService {
 
 		latestScore.setTeamAScore(getLatestScore(teamALatestScore));
 		latestScore.setTeamBScore(getLatestScore(teamBLatestScore));
-		latestScore.setLatestScoreDateTime(findLatestScoreDateTime(getLatestScoreDateTime(teamALatestScore), getLatestScoreDateTime(teamBLatestScore)));
+		latestScore.setLatestScoreDateTime(findLatestScoreDateTime(getLatestScoreDateTime(teamALatestScore),
+				getLatestScoreDateTime(teamBLatestScore)));
 
-		logger.debug("latestScore:{}" , latestScore.toString());
+		logger.debug("latestScore:{}", latestScore.toString());
 
 		return latestScore;
 	}
 
-	private LocalDateTime  getLatestScoreDateTime(ScoreEntity scoreEntity){
-		if(null != scoreEntity){
+	private LocalDateTime getLatestScoreDateTime(ScoreEntity scoreEntity) {
+		if (null != scoreEntity) {
 			return scoreEntity.getTimeRecorded();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
-	private Long  getLatestScore(ScoreEntity scoreEntity){
-		if(null != scoreEntity){
+
+	private Long getLatestScore(ScoreEntity scoreEntity) {
+		if (null != scoreEntity) {
 			return scoreEntity.getScore();
 		} else {
 			return Long.valueOf(0);
 		}
 	}
 
-	private Comparator<ScoreEntity> getComparator(){
+	private Comparator<ScoreEntity> getComparator() {
 		Comparator<ScoreEntity> reverseComparator = (c1, c2) -> {
 			return c1.getTimeRecorded().compareTo(c2.getTimeRecorded());
 		};
